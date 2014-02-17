@@ -243,7 +243,7 @@ repeat the last swap."
           (set-window-buffer (funcall selector) this-buffer)
           (setq elwm-last-swap (list (selected-window) (funcall selector) t))
           (select-window (funcall selector)))
-        (setq arg (if (plusp arg) (1- arg) (1+ arg))))))))
+        (setq arg (if (> arg 0) (1- arg) (1+ arg))))))))
 
 ;;;###autoload
 (defun elwm-activate-window (&optional arg)
