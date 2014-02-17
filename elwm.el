@@ -216,7 +216,7 @@ repeat the last swap."
         (let* ((stack-windows (elwm--get-stack-windows))
                (this-buffer (window-buffer))
                (next-window (nth
-                             (1- (string-to-int
+                             (1- (string-to-number
                                   (ido-completing-read
                                    "Swap with window: "
                                    (mapcar 'int-to-string
