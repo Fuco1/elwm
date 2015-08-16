@@ -299,6 +299,77 @@ for file to open in the newly created window."
            buf)
         (split-window nil nil t))))))
 
+;;;;; windmove stuff
+(defun elwm-shift-internal (windmove-dir)
+  "Internal shift routine.
+
+WINDMOVE-DIR is the direction in which we want to shift."
+  (let* ((split-side-existing (pcase windmove-dir
+                                (`down 'left)
+                                (`up 'left)
+                                (`left 'above)
+                                (`right 'above)
+                                (t (error "Invalid direction"))))
+         (split-side-none (pcase windmove-dir
+                            (`down 'below)
+                            (`up 'above)
+                            (`left 'left)
+                            (`right 'right)
+                            (t (error "Invalid direction"))))
+         (this-window (selected-window))
+         (other-window (windmove-find-other-window windmove-dir))
+         (new-window-size (cond
+                           ;; root split
+                           ((or (window-minibuffer-p other-window)
+                                (null other-window))
+                            nil)
+                           ;; existing window is split, we want
+                           ;; - for vertical split to keep the heights
+                           ;;   of the new windows the same as that of
+                           ;;   the this window + other window
+                           ;; - for horizontal split to keep the width
+                           ;;   of the new windows the same as that of
+                           ;;   the this window + other window
+                           (t
+                            (if (memq windmove-dir '(up down))
+                                (window-height other-window)
+                              (window-width other-window)))))
+         (new-window (cond
+                      ;; root split
+                      ((or (window-minibuffer-p other-window)
+                           (null other-window))
+                       (split-window (frame-root-window) nil split-side-none))
+                      ;; existing window is split
+                      (t
+                       (split-window other-window nil split-side-existing)))))
+    (set-window-buffer new-window (window-buffer this-window))
+    (delete-window this-window)
+    (select-window new-window)
+    (when new-window-size
+      (if (memq windmove-dir '(up down))
+          (enlarge-window (- new-window-size (window-height)))
+        (enlarge-window-horizontally (- new-window-size (window-width)))))))
+
+(defun elwm-shift-down ()
+  "Shift the current window down, spliting a horizontal split if present."
+  (interactive)
+  (elwm-shift-internal 'down))
+
+(defun elwm-shift-up ()
+  "Shift the current window up, spliting a horizontal split if present."
+  (interactive)
+  (elwm-shift-internal 'up))
+
+(defun elwm-shift-right ()
+  "Shift the current window right, spliting a horizontal split if present."
+  (interactive)
+  (elwm-shift-internal 'right))
+
+(defun elwm-shift-left ()
+  "Shift the current window left, spliting a horizontal split if present."
+  (interactive)
+  (elwm-shift-internal 'left))
+
 (provide 'elwm)
 
 ;;; elwm.el ends here
