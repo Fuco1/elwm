@@ -6,7 +6,7 @@
 ;; Maintainer: Matus Goljer <matus.goljer@gmail.com>
 ;; Created: 6 Apr 2013
 ;; Keywords: docs
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Package-Requires: ((dash "1.1.0"))
 ;; URL: https://github.com/Fuco1/elwm
 
