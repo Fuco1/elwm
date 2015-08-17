@@ -63,6 +63,8 @@
 
 (require 'dash)
 
+(require 'windmove)
+
 (defvar elwm-current-layout 'tile-vertical-left
   "Current layout.")
 
