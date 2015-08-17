@@ -304,7 +304,8 @@ for file to open in the newly created window."
   "Internal shift routine.
 
 WINDMOVE-DIR is the direction in which we want to shift."
-  (let* ((split-side-existing (pcase windmove-dir
+  (let* ((windmove-wrap-around nil)
+         (split-side-existing (pcase windmove-dir
                                 (`down 'left)
                                 (`up 'left)
                                 (`left 'above)
