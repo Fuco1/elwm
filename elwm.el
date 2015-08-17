@@ -337,21 +337,25 @@ WINDMOVE-DIR is the direction in which we want to shift."
     ;; TODO: make this optional
     (balance-windows)))
 
+;;;###autoload
 (defun elwm-shift-down ()
   "Shift the current window down, spliting a horizontal split if present."
   (interactive)
   (elwm-shift-internal 'down))
 
+;;;###autoload
 (defun elwm-shift-up ()
   "Shift the current window up, spliting a horizontal split if present."
   (interactive)
   (elwm-shift-internal 'up))
 
+;;;###autoload
 (defun elwm-shift-right ()
   "Shift the current window right, spliting a horizontal split if present."
   (interactive)
   (elwm-shift-internal 'right))
 
+;;;###autoload
 (defun elwm-shift-left ()
   "Shift the current window left, spliting a horizontal split if present."
   (interactive)
