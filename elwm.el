@@ -361,6 +361,42 @@ WINDMOVE-DIR is the direction in which we want to shift."
   (interactive)
   (elwm-shift-internal 'left))
 
+(defun elwm-swap-internal (windmove-dir)
+  "Swap current window's buffer with other window's buffer.
+
+WINDMOVE-DIR is the direction in which we want to swap."
+  (let* ((windmove-wrap-around nil)
+         (this-window (selected-window))
+         (other-window (windmove-find-other-window windmove-dir))
+         (other-window-buffer (window-buffer other-window)))
+    (set-window-buffer other-window (window-buffer this-window))
+    (set-window-buffer this-window other-window-buffer)
+    (select-window other-window)))
+
+;;;###autoload
+(defun elwm-swap-down ()
+  "Swap the current window's buffer with one of the window below."
+  (interactive)
+  (elwm-swap-internal 'down))
+
+;;;###autoload
+(defun elwm-swap-up ()
+  "Swap the current window's buffer with one of the window above."
+  (interactive)
+  (elwm-swap-internal 'up))
+
+;;;###autoload
+(defun elwm-swap-right ()
+  "Swap the current window's buffer with one of the window to the right."
+  (interactive)
+  (elwm-swap-internal 'right))
+
+;;;###autoload
+(defun elwm-swap-left ()
+  "Swap the current window's buffer with one of the window to the left."
+  (interactive)
+  (elwm-swap-internal 'left))
+
 (provide 'elwm)
 
 ;;; elwm.el ends here
