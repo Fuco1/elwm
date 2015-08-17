@@ -75,7 +75,9 @@
   "List of available layouts.")
 
 (defvar elwm-last-swap nil
-  "Last transpose. The format is (from to move-focus).")
+  "Last transpose.
+
+The format is (from to move-focus).")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
