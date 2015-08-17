@@ -318,22 +318,6 @@ WINDMOVE-DIR is the direction in which we want to shift."
                             (t (error "Invalid direction"))))
          (this-window (selected-window))
          (other-window (windmove-find-other-window windmove-dir))
-         (new-window-size (cond
-                           ;; root split
-                           ((or (window-minibuffer-p other-window)
-                                (null other-window))
-                            nil)
-                           ;; existing window is split, we want
-                           ;; - for vertical split to keep the heights
-                           ;;   of the new windows the same as that of
-                           ;;   the this window + other window
-                           ;; - for horizontal split to keep the width
-                           ;;   of the new windows the same as that of
-                           ;;   the this window + other window
-                           (t
-                            (if (memq windmove-dir '(up down))
-                                (window-height other-window)
-                              (window-width other-window)))))
          (new-window (cond
                       ;; root split
                       ((or (window-minibuffer-p other-window)
@@ -345,10 +329,8 @@ WINDMOVE-DIR is the direction in which we want to shift."
     (set-window-buffer new-window (window-buffer this-window))
     (delete-window this-window)
     (select-window new-window)
-    (when new-window-size
-      (if (memq windmove-dir '(up down))
-          (enlarge-window (- new-window-size (window-height)))
-        (enlarge-window-horizontally (- new-window-size (window-width)))))))
+    ;; TODO: make this optional
+    (balance-windows)))
 
 (defun elwm-shift-down ()
   "Shift the current window down, spliting a horizontal split if present."
